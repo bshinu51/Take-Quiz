@@ -4,33 +4,38 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Observable;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-public class ExamPanel extends JPanel {
+public class Companion extends Observable {
+	JPanel viewPanel = new JPanel();
 	private Exam exam;
 	private String filename = "question_n_answer";
-	ArrayList<ButtonGroup> bGroupList;
+	private ArrayList<ButtonGroup> bGroupList;
 	private String[] selectedAnswer = new String[10];
+	private int questionIndex;
 
-	public ExamPanel() {
+	public Companion(JFrame frame) {
 		try {
-			initialize();
+			initialize(frame);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void initialize() throws IOException {
-		exam = new Exam();
-		exam.loadQuestions(filename);
+	private void initialize(JFrame frame) throws IOException {
+		setExam(new Exam());
+		getExam().loadQuestions(filename);
 		GridLayout layout = new GridLayout(10, 1);
-		addQuestionsToPanel(exam.listOfQuestions);
-		setLayout(layout);
+		addQuestionsToPanel(getExam().listOfQuestions);
+		viewPanel.setLayout(layout);
+		frame.add(viewPanel);
 	}
 
 	private void addQuestionsToPanel(ArrayList<Questions> listOfQuestions) {
@@ -56,7 +61,7 @@ public class ExamPanel extends JPanel {
 			}
 			index++;
 			bGroupList.add(bGroup);
-			add(panel);
+			viewPanel.add(panel);
 		}
 	}
 
@@ -69,15 +74,34 @@ public class ExamPanel extends JPanel {
 			if (b.isSelected()) {
 				if (selectedAnswer[i] != b.getText()) {
 					System.out.println("Answer changed from "
-							+ selectedAnswer[i] + " to " + b.getText());
+							+ selectedAnswer[i] + " to " + b.getText()
+							+ " for the question " + i);
 					selectedAnswer[i] = b.getText();
-					answeChanged(i);
+					answerChanged(i);
 				}
 			}
 		}
 	}
 
-	private void answeChanged(int index) {
+	private void answerChanged(int index) {
+		setQuestionIndex(index);
+		setChanged();
+		notifyObservers();
+	}
 
+	public int getQuestionIndex() {
+		return questionIndex;
+	}
+
+	private void setQuestionIndex(int questionIndex) {
+		this.questionIndex = questionIndex;
+	}
+
+	public Exam getExam() {
+		return exam;
+	}
+
+	private void setExam(Exam exam) {
+		this.exam = exam;
 	}
 }
