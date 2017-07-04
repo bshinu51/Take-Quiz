@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -20,6 +21,12 @@ public class ExamView extends Observable {
 	private ArrayList<ButtonGroup> bGroupList;
 	private String[] selectedAnswer = new String[10];
 	private int questionIndex;
+	private boolean hasChanged;
+
+	@SuppressWarnings("unused")
+	private ExamView() {
+
+	}
 
 	public ExamView(JFrame frame) {
 		try {
@@ -77,6 +84,7 @@ public class ExamView extends Observable {
 							+ selectedAnswer[i] + " to " + b.getText()
 							+ " for the question " + i);
 					selectedAnswer[i] = b.getText();
+					hasChanged = true;
 					answerChanged(i);
 				}
 			}
@@ -86,7 +94,7 @@ public class ExamView extends Observable {
 	private void answerChanged(int index) {
 		setQuestionIndex(index);
 		setChanged();
-		notifyObservers();
+		notifyObservers(hasChanged);
 	}
 
 	public int getQuestionIndex() {
@@ -103,5 +111,17 @@ public class ExamView extends Observable {
 
 	private void setExam(Exam exam) {
 		this.exam = exam;
+	}
+
+	public boolean isCorrect(int index) {
+		boolean value = false;
+		if (selectedAnswer[index]
+				.equals(exam.listOfQuestions.get(index).currectAnswer))
+			value = true;
+		return value;
+	}
+
+	public void clearChanged() {
+		hasChanged = false;
 	}
 }

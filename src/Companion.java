@@ -2,16 +2,21 @@ import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GhostPanel extends JPanel implements Runnable {
+public class Companion extends JPanel implements Runnable {
 	JLabel weatherInfo;
 	JLabel ghostImage;
-	JLabel comapanionMessage;
+	JLabel companionMessage;
+	JLabel clock;
 	GroupLayout layout;
+	int startTimeMin = 10;
+	int startTimeSec = 0;
+	Temprature temp = new Temprature();
 
-	public GhostPanel() {
+	public Companion() {
 		weatherInfo = new JLabel();
 		ghostImage = new JLabel();
-		comapanionMessage = new JLabel();
+		companionMessage = new JLabel();
+		clock = new JLabel();
 		layout = new GroupLayout(this);
 		setPanelLayout();
 		initialize();
@@ -21,7 +26,8 @@ public class GhostPanel extends JPanel implements Runnable {
 		this.removeAll();
 		add(weatherInfo);
 		add(ghostImage);
-		add(comapanionMessage);
+		add(companionMessage);
+		add(clock);
 		this.revalidate();
 		this.repaint();
 	}
@@ -31,16 +37,21 @@ public class GhostPanel extends JPanel implements Runnable {
 		layout.setAutoCreateContainerGaps(true);
 		layout.setHorizontalGroup(layout
 				.createSequentialGroup()
-				.addComponent(weatherInfo)
-				.addComponent(ghostImage)
 				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.LEADING).addComponent(
-								comapanionMessage)));
-		layout.setVerticalGroup(layout.createSequentialGroup().addGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(weatherInfo).addComponent(ghostImage)
-						.addComponent(comapanionMessage)));
+						layout.createParallelGroup().addComponent(ghostImage)
+								.addComponent(clock))
+				.addGroup(
+						layout.createParallelGroup()
+								.addComponent(companionMessage)
+								.addComponent(weatherInfo)));
+		layout.setVerticalGroup(layout
+				.createSequentialGroup()
+				.addGroup(
+						layout.createParallelGroup().addComponent(ghostImage)
+								.addComponent(companionMessage))
+				.addGroup(
+						layout.createParallelGroup().addComponent(clock)
+								.addComponent(weatherInfo)));
 	}
 
 	@Override
@@ -48,8 +59,16 @@ public class GhostPanel extends JPanel implements Runnable {
 		int i = 0;
 		while (true) {
 			if (true) {
-				weatherInfo.setText("Modify Comapnion here ");
-				comapanionMessage.setText("" + i++);
+				weatherInfo.setText(temp.getTemp());
+				if (startTimeSec == 00) {
+					startTimeSec = 60;
+					startTimeMin -= 1;
+				}
+				startTimeSec -= 1;
+				clock.setText("remaining time: " + startTimeMin + ":"
+						+ startTimeSec);
+				companionMessage.setText("Companion Message");
+				ghostImage.setText("Ghost Image");
 				initialize();
 				if (i == 100)
 					i = 0;

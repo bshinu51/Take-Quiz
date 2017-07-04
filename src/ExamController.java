@@ -10,9 +10,11 @@ public class ExamController extends JFrame {
 	public ExamController() {
 		GridLayout layout = new GridLayout(2, 1);
 		setLayout(layout);
-		Companion examPanel = new Companion(this);
+		ExamView examPanel = new ExamView(this);
+		BlackBoard blackBoard = BlackBoard.getInstance();
+		examPanel.addObserver(blackBoard);
 		this.add(new JScrollPane(examPanel.viewPanel));
-		GhostPanel ghostPanel = new GhostPanel();
+		Companion ghostPanel = new Companion();
 		this.add(ghostPanel);
 		Thread t = new Thread(ghostPanel);
 		t.start();

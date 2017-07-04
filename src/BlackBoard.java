@@ -1,20 +1,34 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-public class BlackBoard implements Observer {
-	ArrayList<TableEntry> table = new ArrayList<TableEntry>();
+public class BlackBoard extends Observable implements Observer {
+	private static BlackBoard sInstance = null;
+	HashMap<Integer, TableEntry> table = new HashMap<Integer, TableEntry>();
+
+	private BlackBoard() {
+
+	}
+
+	public static BlackBoard getInstance() {
+		if (sInstance == null)
+			sInstance = new BlackBoard();
+		return sInstance;
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o.hasChanged()) {
-			boolean isCorrect = false;// find whether its correct or not
-			int index = ((Companion) o).getQuestionIndex();
+		if ((boolean) arg) {
+			int index = ((ExamView) o).getQuestionIndex();
+			boolean isCorrect = ((ExamView) o).isCorrect(index);
 			String timeTaken = null;// = ((Companion) o);
-			if (table.get(index) != null)
-				table.set(index, new TableEntry(index, isCorrect, timeTaken));
-			else
+			if (table.containsKey(index))
 				table.get(index).updateEntry(index, isCorrect, timeTaken);
+			else
+				table.put(index, new TableEntry(index, isCorrect, timeTaken));
+			((ExamView) o).clearChanged();
+			setChanged();
+			notifyObservers();
 		}
 	}
 }
