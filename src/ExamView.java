@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-public class Companion extends Observable {
+public class ExamView extends Observable {
 	JPanel viewPanel = new JPanel();
 	private Exam exam;
 	private String filename = "question_n_answer";
@@ -21,7 +21,7 @@ public class Companion extends Observable {
 	private String[] selectedAnswer = new String[10];
 	private int questionIndex;
 
-	public Companion(JFrame frame) {
+	public ExamView(JFrame frame) {
 		try {
 			initialize(frame);
 		} catch (IOException e) {
