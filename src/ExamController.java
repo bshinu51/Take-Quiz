@@ -6,7 +6,11 @@ import javax.swing.JScrollPane;
 public class ExamController extends JFrame {
 	public final static String FILE_PATH = "resources/";
 	public final static String QA_FILE_NAME = FILE_PATH + "question_n_answer";
-	public final static String GHOST_FILE_NAME = FILE_PATH + "red_ghost.gif";
+	public final static String HAPPY1_FILE_NAME = FILE_PATH + "happy1image.jpg";
+	public final static String HAPPY_FILE_NAME = FILE_PATH + "happyimage.jpg";
+	public final static String INDIF_FILE_NAME = FILE_PATH + "indiffimage.jpg";
+	public final static String SAD_FILE_NAME = FILE_PATH + "sadimage.png";
+	public final static String SAD1_FILE_NAME = FILE_PATH + "sad1image.jpg";
 
 	public ExamController() {
 		GridLayout layout = new GridLayout(2, 1);

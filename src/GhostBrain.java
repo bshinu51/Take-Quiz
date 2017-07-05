@@ -8,6 +8,8 @@ public class GhostBrain implements Observer {
 	private int totalCorrect = 0;
 	private int totalCount = 0;
 	Temprature temp = new Temprature();
+	private boolean hasChanged;
+	public Object mLock = new Object();
 
 	public GhostBrain() {
 		blackBoard.addObserver(this);
@@ -24,7 +26,9 @@ public class GhostBrain implements Observer {
 				setTotalCorrect(getTotalCorrect() + 1);
 			}
 		}
-		System.out.println(getTotalCorrect() + "/" + getTotalCount());
+		synchronized (mLock) {
+			setHasChanged(true);
+		}
 	}
 
 	public int getTotalCorrect() {
@@ -49,5 +53,13 @@ public class GhostBrain implements Observer {
 
 	public String getTemperatureMsg() {
 		return null;
+	}
+
+	public boolean isHasChanged() {
+		return hasChanged;
+	}
+
+	public void setHasChanged(boolean hasChanged) {
+		this.hasChanged = hasChanged;
 	}
 }

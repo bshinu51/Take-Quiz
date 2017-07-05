@@ -14,7 +14,6 @@ public class Questions {
 	String question;
 	ArrayList<Answers> answers;
 	String currectAnswer;
-	private String selectedAnswer;
 	String imagePath;
 	ButtonGroup bGroup;
 
@@ -31,15 +30,5 @@ public class Questions {
 		}
 		if (str.length > 6)
 			imagePath = str[6];
-	}
-
-	protected void answerSelected() {
-		Enumeration<AbstractButton> buttonList = bGroup.getElements();
-		while (buttonList.hasMoreElements()) {
-			AbstractButton b = buttonList.nextElement();
-			if (b.isSelected()) {
-				selectedAnswer = b.getText();
-			}
-		}
 	}
 }

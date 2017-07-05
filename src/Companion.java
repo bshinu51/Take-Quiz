@@ -15,19 +15,19 @@ public class Companion extends JPanel implements Runnable {
 
 	public Companion(GhostBrain ghostBrain) {
 		this.ghostBrain = ghostBrain;
+		initialize(ExamController.INDIF_FILE_NAME);
+	}
+
+	private void initialize(String fileName) {
+		this.removeAll();
 		weatherInfo = new JLabel();
-		ghostImage = new JLabel(new ImageIcon(new ImageIcon(
-				ExamController.GHOST_FILE_NAME).getImage().getScaledInstance(
-				30, 30, 0)));
+		weatherInfo.setText("Temp: " + ghostBrain.getTemperature());
+		ghostImage = new JLabel(new ImageIcon(new ImageIcon(fileName)
+				.getImage().getScaledInstance(50, 50, 0)));
 		companionMessage = new JLabel();
 		clock = new JLabel();
 		layout = new GroupLayout(this);
 		setPanelLayout();
-		initialize();
-	}
-
-	private void initialize() {
-		this.removeAll();
 		add(weatherInfo);
 		add(ghostImage);
 		add(companionMessage);
@@ -60,29 +60,57 @@ public class Companion extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
-		int i = 0;
+		boolean isEnter = false;
 		while (true) {
-			if (true) {
-				weatherInfo.setText("Temp: " + ghostBrain.getTemperature());
-				if (startTimeSec == 00) {
-					startTimeSec = 60;
-					startTimeMin -= 1;
-				}
-				startTimeSec -= 1;
-				clock.setText("remaining time: " + startTimeMin + ":"
-						+ startTimeSec);
-				companionMessage.setText("Correctness "
-						+ ghostBrain.getTotalCorrect() + "/"
-						+ ghostBrain.getTotalCount());
-				initialize();
-				if (i == 100)
-					i = 0;
+			synchronized (ghostBrain.mLock) {
+				if (ghostBrain.isHasChanged())
+					isEnter = true;
+				ghostBrain.setHasChanged(false);
 			}
+			if (isEnter) {
+				double correct = ghostBrain.getTotalCorrect();
+				double total = ghostBrain.getTotalCount();
+				if (total > 0 && correct / total < 0.5)
+					initialize(pickSad(startTimeSec));
+				else if (total > 0 && correct / total >= 0.8)
+					initialize(pickHappy(startTimeSec));
+				else
+					initialize(pickIndiff());
+				System.out.println(correct + " " + total + " " + correct
+						/ total);
+				companionMessage
+						.setText("Correctness " + correct + "/" + total);
+				isEnter = false;
+			}
+			if (startTimeSec == 00) {
+				startTimeSec = 60;
+				startTimeMin -= 1;
+			}
+			startTimeSec -= 1;
+			clock.setText("remaining time: " + startTimeMin + ":"
+					+ startTimeSec);
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 
 			}
 		}
+	}
+
+	private String pickIndiff() {
+		return ExamController.INDIF_FILE_NAME;
+
+	}
+
+	private String pickHappy(int i) {
+		String[] str = { ExamController.HAPPY_FILE_NAME,
+				ExamController.HAPPY1_FILE_NAME };
+		return str[i % 2];
+	}
+
+	private String pickSad(int i) {
+		String[] str = { ExamController.SAD_FILE_NAME,
+				ExamController.SAD1_FILE_NAME };
+		return str[i % 2];
 	}
 }
