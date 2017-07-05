@@ -1,4 +1,5 @@
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -10,11 +11,14 @@ public class Companion extends JPanel implements Runnable {
 	GroupLayout layout;
 	int startTimeMin = 10;
 	int startTimeSec = 0;
-	Temprature temp = new Temprature();
+	private GhostBrain ghostBrain;
 
-	public Companion() {
+	public Companion(GhostBrain ghostBrain) {
+		this.ghostBrain = ghostBrain;
 		weatherInfo = new JLabel();
-		ghostImage = new JLabel();
+		ghostImage = new JLabel(new ImageIcon(new ImageIcon(
+				ExamController.GHOST_FILE_NAME).getImage().getScaledInstance(
+				30, 30, 0)));
 		companionMessage = new JLabel();
 		clock = new JLabel();
 		layout = new GroupLayout(this);
@@ -59,7 +63,7 @@ public class Companion extends JPanel implements Runnable {
 		int i = 0;
 		while (true) {
 			if (true) {
-				weatherInfo.setText(temp.getTemp());
+				weatherInfo.setText("Temp: " + ghostBrain.getTemperature());
 				if (startTimeSec == 00) {
 					startTimeSec = 60;
 					startTimeMin -= 1;
@@ -67,8 +71,9 @@ public class Companion extends JPanel implements Runnable {
 				startTimeSec -= 1;
 				clock.setText("remaining time: " + startTimeMin + ":"
 						+ startTimeSec);
-				companionMessage.setText("Companion Message");
-				ghostImage.setText("Ghost Image");
+				companionMessage.setText("Correctness "
+						+ ghostBrain.getTotalCorrect() + "/"
+						+ ghostBrain.getTotalCount());
 				initialize();
 				if (i == 100)
 					i = 0;

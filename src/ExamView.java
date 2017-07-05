@@ -17,7 +17,6 @@ import javax.swing.JRadioButton;
 public class ExamView extends Observable {
 	JPanel viewPanel = new JPanel();
 	private Exam exam;
-	private String filename = "question_n_answer";
 	private ArrayList<ButtonGroup> bGroupList;
 	private String[] selectedAnswer = new String[10];
 	private int questionIndex;
@@ -38,7 +37,7 @@ public class ExamView extends Observable {
 
 	private void initialize(JFrame frame) throws IOException {
 		setExam(new Exam());
-		getExam().loadQuestions(filename);
+		getExam().loadQuestions(ExamController.QA_FILE_NAME);
 		GridLayout layout = new GridLayout(10, 1);
 		addQuestionsToPanel(getExam().listOfQuestions);
 		viewPanel.setLayout(layout);
