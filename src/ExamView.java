@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -38,6 +37,7 @@ public class ExamView extends Observable {
 
 	private void initialize(JFrame frame) throws IOException {
 		setExam(new Exam());
+		// Populate exam object
 		getExam().loadQuestions(filename);
 		GridLayout layout = new GridLayout(10, 1);
 		addQuestionsToPanel(getExam().listOfQuestions);
@@ -51,15 +51,21 @@ public class ExamView extends Observable {
 		for (Questions question : listOfQuestions) {
 			JPanel panel = new JPanel();
 			panel.add(new JLabel("Question:" + question));
+			// For each question group of four buttons from which only 1 can be selected
 			ButtonGroup bGroup = new ButtonGroup();
 			ArrayList<JRadioButton> buttonList = new ArrayList<JRadioButton>();
+			// For each answer in each question
 			for (Answers ans : question.answers) {
 				JRadioButton button = new JRadioButton(ans.answerText);
 				buttonList.add(button);
+				// Sets the command name for the action event fired
+				// by this button to question number
 				button.setActionCommand("" + index);
 				button.addActionListener(new ActionListener() {
 					@Override
+					// Invoked when an action occurs on button
 					public void actionPerformed(ActionEvent e) {
+						// Pass the button's action command name 
 						answerSelected(e.getActionCommand());
 					}
 				});
@@ -71,14 +77,21 @@ public class ExamView extends Observable {
 			viewPanel.add(panel);
 		}
 	}
-
+	
+	/**
+	 * answerSelected
+	 * this method is called when user clicks on any answer
+	 * @param {String} Clicked button's action command name(question number)
+	 */
 	protected void answerSelected(String index) {
 		int i = Integer.parseInt(index);
 		Enumeration<AbstractButton> buttonList = bGroupList.get(i)
 				.getElements();
 		while (buttonList.hasMoreElements()) {
 			AbstractButton b = buttonList.nextElement();
+			// If button was clicked
 			if (b.isSelected()) {
+				// If question's answer was changed by the click
 				if (selectedAnswer[i] != b.getText()) {
 					System.out.println("Answer changed from "
 							+ selectedAnswer[i] + " to " + b.getText()
@@ -90,10 +103,19 @@ public class ExamView extends Observable {
 			}
 		}
 	}
-
+	/**
+	 * answerChanged
+	 * This method is called when user changes question's answer
+	 * It will notify the observer of the change
+	 * @param {int} Clicked button's action command name (question number)
+	 */
 	private void answerChanged(int index) {
 		setQuestionIndex(index);
+		// Marks Observable object as having been changed
 		setChanged();
+		
+		// The hasChanged method will now return true, then notify all of its observers 
+		// and then call the clearChanged method to indicate that this object has no longer changed.
 		notifyObservers(hasChanged);
 	}
 

@@ -10,9 +10,11 @@ public class Companion extends JPanel implements Runnable {
 	GroupLayout layout;
 	int startTimeMin = 10;
 	int startTimeSec = 0;
-	Temprature temp = new Temprature();
+	GhostBrain ghostBrain;
+	
 
 	public Companion() {
+		ghostBrain = new GhostBrain(); 
 		weatherInfo = new JLabel();
 		ghostImage = new JLabel();
 		companionMessage = new JLabel();
@@ -59,7 +61,7 @@ public class Companion extends JPanel implements Runnable {
 		int i = 0;
 		while (true) {
 			if (true) {
-				weatherInfo.setText(temp.getTemp());
+				weatherInfo.setText(ghostBrain.getTemprature());
 				if (startTimeSec == 00) {
 					startTimeSec = 60;
 					startTimeMin -= 1;
@@ -67,7 +69,7 @@ public class Companion extends JPanel implements Runnable {
 				startTimeSec -= 1;
 				clock.setText("remaining time: " + startTimeMin + ":"
 						+ startTimeSec);
-				companionMessage.setText("Companion Message");
+				companionMessage.setText(ghostBrain.getCompanionMessage());
 				ghostImage.setText("Ghost Image");
 				initialize();
 				if (i == 100)

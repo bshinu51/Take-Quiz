@@ -15,5 +15,8 @@ public class TableEntry {
 		this.isCorrect = isCorrect;
 		this.timeTaken = timeTaken;
 	}
+	public boolean getEntryCorrectness() {
+		return this.isCorrect;
+	}
 
 }
