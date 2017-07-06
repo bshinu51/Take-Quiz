@@ -11,6 +11,10 @@ public class TableEntry {
 		this.isCorrect = isCorrect;
 		this.timeTaken = timeTaken;
 	}
+	
+	public boolean getEntryCorrectness() {
+		return this.isCorrect;
+	}
 
 	public void updateEntry(int index, boolean isCorrect, String timeTaken) {
 		this.index = index;

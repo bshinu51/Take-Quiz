@@ -32,9 +32,9 @@ public class Companion extends JPanel implements Runnable {
 		clock = new JLabel();
 		layout = new GroupLayout(this);
 		setPanelLayout();
-		add(weatherInfo);
 		add(ghostImage);
 		add(companionMessage);
+		add(weatherInfo);
 		add(clock);
 		this.revalidate();
 		this.repaint();
