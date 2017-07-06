@@ -25,7 +25,7 @@ public class Companion extends JPanel implements Runnable {
 	private void initialize(String fileName) {
 		this.removeAll();
 		weatherInfo = new JLabel();
-		weatherInfo.setText("Temp: " + ghostBrain.getTemperature());
+		weatherInfo.setText(ghostBrain.getTemperatureMsg());
 		ghostImage = new JLabel(new ImageIcon(new ImageIcon(fileName)
 				.getImage().getScaledInstance(70, 70, 0)));
 		companionMessage = new JLabel();
@@ -94,6 +94,7 @@ public class Companion extends JPanel implements Runnable {
 
 	private void afterExamOver() {
 		companionMessage.setText(" Your exam is over");
+		clock.setText("");
 		ExamController.examOver(ghostBrain.getTotalCorrect());
 	}
 

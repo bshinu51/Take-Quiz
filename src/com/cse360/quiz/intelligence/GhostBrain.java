@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import com.cse360.quiz.ExamController;
 import com.cse360.quiz.storagemanager.BlackBoard;
@@ -18,13 +19,22 @@ public class GhostBrain implements Observer {
 	Temprature temp = new Temprature();
 	private boolean hasChanged;
 	public Object mLock = new Object();
+
 	Calendar time = Calendar.getInstance();
 	int hour;
-	boolean isCurrentAnswerCorrect;
-	String correctnessMessage = "Let's start...";
 	double correctnessPercentage = 0;
+	private String companionMessage = "";
 	String ghostEmotion = "indiffrent";
 	private String timeTaken;
+	String correctnessMessage = null;
+	public final static String[] correcFeedbacks = { "you have chosen wisly",
+			"good job!", "Awsome job", "you are right on", "you are correct" };
+	public final static String[] incorrectFeedbacks = {
+			"you have chosen poorly", "you can do better",
+			"you need more practice", "you are wrong",
+			"think more about this one" };
+	private boolean isCurrentAnswerCorrect;
+	Random rand = new Random();
 
 	public GhostBrain() {
 		blackBoard.addObserver(this);
@@ -47,6 +57,7 @@ public class GhostBrain implements Observer {
 		synchronized (acquireLock()) {
 			setHasChanged(true);
 		}
+		updateCompanionMessage();
 	}
 
 	public Object acquireLock() {
@@ -58,10 +69,18 @@ public class GhostBrain implements Observer {
 				.getTime());
 	}
 
+	public void updateCompanionMessage() {
+		this.companionMessage = getGreetingMessage() + ", "
+				+ getCorrectnessMessage() + "! ";
+	}
+
+	public void setCompanionMessage(String companionMessage) {
+		this.companionMessage = companionMessage;
+	}
+
 	public String getCompanionMessage() {
-		return getGreetingMessage() + ", "
-				+ getCorrectnessMessage(isCurrentAnswerCorrect)
-				+ " And you took " + timeTaken + " minutes";
+		return this.companionMessage + " And you took " + timeTaken
+				+ " minutes";
 	}
 
 	private String getGreetingMessage() {
@@ -89,11 +108,15 @@ public class GhostBrain implements Observer {
 	 * 
 	 * return tempertureMessage; }
 	 */
-	private String getCorrectnessMessage(boolean isCorrect) {
-		if (isCorrect)
-			return "You are correct!";
+	public String getCorrectnessMessage() {
+		double n = Math.random() * 5 + 1;
+
+		if (isCurrentAnswerCorrect)
+			correctnessMessage = correcFeedbacks[(int) (n % 5)];
 		else
-			return "Try again!";
+			correctnessMessage = incorrectFeedbacks[(int) (n % 5)];
+
+		return correctnessMessage;
 	}
 
 	public String getGhostCharacter() {
@@ -137,12 +160,15 @@ public class GhostBrain implements Observer {
 		return totalCount;
 	}
 
-	public String getTemperature() {
-		return temp.getTemperature();
-	}
-
 	public String getTemperatureMsg() {
-		return null;
+		String tmpOpen = "! (Temp: ";
+		String t = temp.getTemperature();
+		String tmpClose = " F)";
+		if (Double.parseDouble(t) > 90)
+			return " It's too hot outside" + tmpOpen + t + tmpClose;
+		else if (Double.parseDouble(t) < 60)
+			return " It's too cold outside" + tmpOpen + t + tmpClose;
+		return " It's romantic weather" + tmpOpen + t + tmpClose;
 	}
 
 	public boolean isHasChanged() {
