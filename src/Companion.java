@@ -69,22 +69,18 @@ public class Companion extends JPanel implements Runnable {
 				ghostBrain.setHasChanged(false);
 			}
 			if (isEnter) {
-				double correct = ghostBrain.getTotalCorrect();
-				double total = ghostBrain.getTotalCount();
-				double ratio = correct / total;
-				if (total > 0 && ratio < 0.5 && ratio >= 0.3)
+				String ghostEmotion = ghostBrain.getGhostEmotion();
+				if (ghostEmotion == "sad0")
 					initialize(pickSad(0));
-				else if (total > 0 && ratio < 0.3)
+				else if (ghostEmotion == "sad1")
 					initialize(pickSad(1));
-				else if (total > 0 && correct / total >= 0.7
-						&& correct / total < 0.9)
+				else if (ghostEmotion == "happy0")
 					initialize(pickHappy(0));
-				else if (total > 0 && correct / total >= 0.9)
+				else if (ghostEmotion == "happy1")
 					initialize(pickHappy(1));
 				else
 					initialize(pickIndiff());
-				System.out.println(correct + " " + total + " " + correct
-						/ total);
+
 				companionMessage
 						.setText(ghostBrain.getCompanionMessage());
 				isEnter = false;
