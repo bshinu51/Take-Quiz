@@ -15,7 +15,7 @@ public class Companion extends JPanel implements Runnable {
 
 	public Companion(GhostBrain ghostBrain) {
 		this.ghostBrain = ghostBrain;
-		initialize(ExamController.INDIF_FILE_NAME);
+		initialize(ExamController.WELCOME_FILE_NAME);
 	}
 
 	private void initialize(String fileName) {
@@ -23,7 +23,7 @@ public class Companion extends JPanel implements Runnable {
 		weatherInfo = new JLabel();
 		weatherInfo.setText("Temp: " + ghostBrain.getTemperature());
 		ghostImage = new JLabel(new ImageIcon(new ImageIcon(fileName)
-				.getImage().getScaledInstance(50, 50, 0)));
+				.getImage().getScaledInstance(70, 70, 0)));
 		companionMessage = new JLabel();
 		clock = new JLabel();
 		layout = new GroupLayout(this);
@@ -61,7 +61,8 @@ public class Companion extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		boolean isEnter = false;
-		while (true) {
+		boolean isThreadStop = false;
+		while (!isThreadStop) {
 			synchronized (ghostBrain.mLock) {
 				if (ghostBrain.isHasChanged())
 					isEnter = true;
@@ -70,10 +71,16 @@ public class Companion extends JPanel implements Runnable {
 			if (isEnter) {
 				double correct = ghostBrain.getTotalCorrect();
 				double total = ghostBrain.getTotalCount();
-				if (total > 0 && correct / total < 0.5)
-					initialize(pickSad(startTimeSec));
-				else if (total > 0 && correct / total >= 0.8)
-					initialize(pickHappy(startTimeSec));
+				double ratio = correct / total;
+				if (total > 0 && ratio < 0.5 && ratio >= 0.3)
+					initialize(pickSad(0));
+				else if (total > 0 && ratio < 0.3)
+					initialize(pickSad(1));
+				else if (total > 0 && correct / total >= 0.7
+						&& correct / total < 0.9)
+					initialize(pickHappy(0));
+				else if (total > 0 && correct / total >= 0.9)
+					initialize(pickHappy(1));
 				else
 					initialize(pickIndiff());
 				System.out.println(correct + " " + total + " " + correct
@@ -89,12 +96,21 @@ public class Companion extends JPanel implements Runnable {
 			startTimeSec -= 1;
 			clock.setText("remaining time: " + startTimeMin + ":"
 					+ startTimeSec);
+			if (ghostBrain.getTotalCount() == 10
+					|| (startTimeMin == 0 && startTimeSec == 0))
+				isThreadStop = true;
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 
 			}
 		}
+		afterExamOver();
+	}
+
+	private void afterExamOver() {
+		companionMessage.setText(" Your exam is over");
+		ExamController.examOver(ghostBrain.getTotalCorrect());
 	}
 
 	private String pickIndiff() {

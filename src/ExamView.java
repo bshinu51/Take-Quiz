@@ -47,12 +47,12 @@ public class ExamView extends Observable {
 	private void addQuestionsToPanel(ArrayList<Questions> listOfQuestions) {
 		bGroupList = new ArrayList<ButtonGroup>(listOfQuestions.size());
 		int index = 0;
-		for (Questions question : listOfQuestions) {
+		for (Questions que : listOfQuestions) {
 			JPanel panel = new JPanel();
-			panel.add(new JLabel("Question:" + question));
+			panel.add(new JLabel("Question: " + que.question));
 			ButtonGroup bGroup = new ButtonGroup();
 			ArrayList<JRadioButton> buttonList = new ArrayList<JRadioButton>();
-			for (Answers ans : question.answers) {
+			for (Answers ans : que.answers) {
 				JRadioButton button = new JRadioButton(ans.answerText);
 				buttonList.add(button);
 				button.setActionCommand("" + index);
