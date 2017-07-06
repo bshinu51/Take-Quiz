@@ -1,10 +1,14 @@
+package com.cse360.quiz.storagemanager;
+
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.cse360.quiz.ExamView;
+
 public class BlackBoard extends Observable implements Observer {
 	private static BlackBoard sInstance = null;
-	HashMap<Integer, TableEntry> table = new HashMap<Integer, TableEntry>();
+	private HashMap<Integer, TableEntry> table = new HashMap<Integer, TableEntry>();
 
 	private BlackBoard() {
 
@@ -21,14 +25,19 @@ public class BlackBoard extends Observable implements Observer {
 		if ((boolean) arg) {
 			int index = ((ExamView) o).getQuestionIndex();
 			boolean isCorrect = ((ExamView) o).isCorrect(index);
-			String timeTaken = null;// = ((Companion) o);
-			if (table.containsKey(index))
-				table.get(index).updateEntry(index, isCorrect, timeTaken);
+			String timeTaken = ((ExamView) o).getTimeTaken();
+			if (getTable().containsKey(index))
+				getTable().get(index).updateEntry(index, isCorrect, timeTaken);
 			else
-				table.put(index, new TableEntry(index, isCorrect, timeTaken));
+				getTable().put(index,
+						new TableEntry(index, isCorrect, timeTaken));
 			((ExamView) o).clearChanged();
 			setChanged();
-			notifyObservers();
+			notifyObservers(index);
 		}
+	}
+
+	public HashMap<Integer, TableEntry> getTable() {
+		return table;
 	}
 }

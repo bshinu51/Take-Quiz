@@ -1,3 +1,5 @@
+package com.cse360.quiz.intelligence;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +13,7 @@ import org.json.JSONObject;
 public class Temprature {
 	String urlText = "https://api.darksky.net/forecast/a8d89b8329c66bc61a64b50e625c0159/"
 			+ "33.424564,-111.928001";
-	private String temp;
+	private String temperature;
 
 	public Temprature() {
 		try {
@@ -35,15 +37,11 @@ public class Temprature {
 		JSONObject jsonResult;
 		jsonResult = new JSONObject(sBuilder.toString());
 		bReader.close();
-		setTemp(""
-				+ ((JSONObject) jsonResult.get("currently")).get("temperature"));
+		temperature = ""
+				+ ((JSONObject) jsonResult.get("currently")).get("temperature");
 	}
 
-	public String getTemp() {
-		return temp;
-	}
-
-	private void setTemp(String temp) {
-		this.temp = temp;
+	public String getTemperature() {
+		return temperature;
 	}
 }

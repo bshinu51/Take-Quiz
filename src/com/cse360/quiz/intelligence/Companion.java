@@ -1,7 +1,11 @@
+package com.cse360.quiz.intelligence;
+
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.cse360.quiz.ExamController;
 
 public class Companion extends JPanel implements Runnable {
 	JLabel weatherInfo;
@@ -60,34 +64,14 @@ public class Companion extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
-		boolean isEnter = false;
 		boolean isThreadStop = false;
 		while (!isThreadStop) {
-			synchronized (ghostBrain.mLock) {
-				if (ghostBrain.isHasChanged())
-					isEnter = true;
-				ghostBrain.setHasChanged(false);
-			}
-			if (isEnter) {
-				double correct = ghostBrain.getTotalCorrect();
-				double total = ghostBrain.getTotalCount();
-				double ratio = correct / total;
-				if (total > 0 && ratio < 0.5 && ratio >= 0.3)
-					initialize(pickSad(0));
-				else if (total > 0 && ratio < 0.3)
-					initialize(pickSad(1));
-				else if (total > 0 && correct / total >= 0.7
-						&& correct / total < 0.9)
-					initialize(pickHappy(0));
-				else if (total > 0 && correct / total >= 0.9)
-					initialize(pickHappy(1));
-				else
-					initialize(pickIndiff());
-				System.out.println(correct + " " + total + " " + correct
-						/ total);
-				companionMessage
-						.setText("Correctness " + correct + "/" + total);
-				isEnter = false;
+			synchronized (ghostBrain.acquireLock()) {
+				if (ghostBrain.isHasChanged()) {
+					initialize(ghostBrain.getGhostCharacter());
+					companionMessage.setText(ghostBrain.getCompanionMessage());
+					ghostBrain.setHasChanged(false);
+				}
 			}
 			if (startTimeSec == 00) {
 				startTimeSec = 60;
@@ -113,20 +97,4 @@ public class Companion extends JPanel implements Runnable {
 		ExamController.examOver(ghostBrain.getTotalCorrect());
 	}
 
-	private String pickIndiff() {
-		return ExamController.INDIF_FILE_NAME;
-
-	}
-
-	private String pickHappy(int i) {
-		String[] str = { ExamController.HAPPY_FILE_NAME,
-				ExamController.HAPPY1_FILE_NAME };
-		return str[i % 2];
-	}
-
-	private String pickSad(int i) {
-		String[] str = { ExamController.SAD_FILE_NAME,
-				ExamController.SAD1_FILE_NAME };
-		return str[i % 2];
-	}
 }

@@ -1,8 +1,14 @@
+package com.cse360.quiz;
+
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+
+import com.cse360.quiz.intelligence.Companion;
+import com.cse360.quiz.intelligence.GhostBrain;
+import com.cse360.quiz.storagemanager.BlackBoard;
 
 public class ExamController extends JFrame {
 	static ExamView examPanel;
@@ -21,7 +27,7 @@ public class ExamController extends JFrame {
 		examPanel = new ExamView(this);
 		BlackBoard blackBoard = BlackBoard.getInstance();
 		examPanel.addObserver(blackBoard);
-		this.add(new JScrollPane(examPanel.viewPanel));
+		this.add(new JScrollPane(examPanel.getViewPanel()));
 		Companion ghostPanel = new Companion(new GhostBrain());
 		this.add(ghostPanel);
 		Thread t = new Thread(ghostPanel);
@@ -38,10 +44,11 @@ public class ExamController extends JFrame {
 	}
 
 	public static void examOver(int score) {
-		examPanel.viewPanel.removeAll();
-		examPanel.viewPanel.add(new JLabel("Exam is over and you scored - "
-				+ score + "/" + 10));
-		examPanel.viewPanel.revalidate();
-		examPanel.viewPanel.repaint();
+		examPanel.getViewPanel().removeAll();
+		examPanel.getViewPanel()
+				.add(new JLabel("Exam is over and you scored - " + score + "/"
+						+ 10));
+		examPanel.getViewPanel().revalidate();
+		examPanel.getViewPanel().repaint();
 	}
 }

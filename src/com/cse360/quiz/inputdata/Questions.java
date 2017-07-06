@@ -1,13 +1,12 @@
+package com.cse360.quiz.inputdata;
+
 import java.util.ArrayList;
-import javax.swing.ButtonGroup;
 
 public class Questions {
-
-	String question;
-	ArrayList<Answers> answers;
-	String currectAnswer;
-	String imagePath;
-	ButtonGroup bGroup;
+	private String question;
+	private ArrayList<Answers> answers;
+	private String currectAnswer;
+	private String imagePath;
 
 	public Questions(String[] str) {
 		question = str[0];
@@ -22,5 +21,21 @@ public class Questions {
 		}
 		if (str.length > 6)
 			imagePath = str[6];
+	}
+
+	public String getQuestion() {
+		return question;
+	}
+
+	public ArrayList<Answers> getAnswers() {
+		return answers;
+	}
+
+	public String getCurrectAnswer() {
+		return currectAnswer;
+	}
+
+	public String getImagePath() {
+		return imagePath;
 	}
 }

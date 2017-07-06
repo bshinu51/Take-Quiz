@@ -1,8 +1,10 @@
+package com.cse360.quiz.storagemanager;
+
 public class TableEntry {
 
-	int index;
-	boolean isCorrect;
-	String timeTaken;
+	private int index;
+	private boolean isCorrect;
+	private String timeTaken;
 
 	public TableEntry(int index, boolean isCorrect, String timeTaken) {
 		this.index = index;
@@ -14,6 +16,18 @@ public class TableEntry {
 		this.index = index;
 		this.isCorrect = isCorrect;
 		this.timeTaken = timeTaken;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public boolean isCorrect() {
+		return isCorrect;
+	}
+
+	public String getTimeTaken() {
+		return timeTaken;
 	}
 
 }

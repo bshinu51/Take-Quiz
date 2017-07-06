@@ -1,3 +1,5 @@
+package com.cse360.quiz.inputdata;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,6 +18,7 @@ public class CSVParser {
 			System.out.println(s);
 			list.add(convertToQuestion(s));
 		}
+		iReader.close();
 		return list;
 	}
 
