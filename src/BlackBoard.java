@@ -28,7 +28,7 @@ public class BlackBoard extends Observable implements Observer {
 				table.put(index, new TableEntry(index, isCorrect, timeTaken));
 			((ExamView) o).clearChanged();
 			setChanged();
-			notifyObservers();
+			notifyObservers(index);
 		}
 	}
 }

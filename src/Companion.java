@@ -28,9 +28,9 @@ public class Companion extends JPanel implements Runnable {
 		clock = new JLabel();
 		layout = new GroupLayout(this);
 		setPanelLayout();
-		add(weatherInfo);
 		add(ghostImage);
 		add(companionMessage);
+		add(weatherInfo);
 		add(clock);
 		this.revalidate();
 		this.repaint();
@@ -86,7 +86,7 @@ public class Companion extends JPanel implements Runnable {
 				System.out.println(correct + " " + total + " " + correct
 						/ total);
 				companionMessage
-						.setText("Correctness " + correct + "/" + total);
+						.setText(ghostBrain.getCompanionMessage());
 				isEnter = false;
 			}
 			if (startTimeSec == 00) {
