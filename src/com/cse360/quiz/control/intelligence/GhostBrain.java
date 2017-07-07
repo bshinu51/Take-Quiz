@@ -42,7 +42,7 @@ public class GhostBrain implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// iterate through tableentry and set companion message
+		// iterate through table entry and set companion message
 		isCurrentAnswerCorrect = ((BlackBoard) o).getTable().get(arg)
 				.isCorrect();
 		timeTaken = ((BlackBoard) o).getTable().get(arg).getTimeTaken();
@@ -98,16 +98,6 @@ public class GhostBrain implements Observer {
 		return greetingMessage;
 	}
 
-	/**
-	 * public String getTempMessage() { double temperture =
-	 * Double.parseDouble(temp.getTemp()); String tempertureMessage = null; if
-	 * (temperture < 45) tempertureMessage = "It's cold"; else if (temperture >
-	 * 46 && hour > 85) tempertureMessage = "It's nice out there"; else if
-	 * (temperture > 86) tempertureMessage = "It's hot out there"; else
-	 * tempertureMessage = temp.getTemp();
-	 * 
-	 * return tempertureMessage; }
-	 */
 	public String getCorrectnessMessage() {
 		double n = Math.random() * 5 + 1;
 
@@ -168,7 +158,7 @@ public class GhostBrain implements Observer {
 			return " It's too hot outside" + tmpOpen + t + tmpClose;
 		else if (Double.parseDouble(t) < 60)
 			return " It's too cold outside" + tmpOpen + t + tmpClose;
-		return " It's romantic weather" + tmpOpen + t + tmpClose;
+		return " It's a romantic weather" + tmpOpen + t + tmpClose;
 	}
 
 	public boolean isHasChanged() {

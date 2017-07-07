@@ -11,6 +11,7 @@ import java.util.Observable;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,7 +19,7 @@ import javax.swing.JRadioButton;
 
 import com.cse360.quiz.model.inputdata.Answers;
 import com.cse360.quiz.model.inputdata.Exam;
-import com.cse360.quiz.model.inputdata.Questions;
+import com.cse360.quiz.model.inputdata.Question;
 
 public class ExamView extends Observable {
 	private JPanel viewPanel = new JPanel();
@@ -27,7 +28,7 @@ public class ExamView extends Observable {
 	private String[] selectedAnswer = new String[10];
 	private int questionIndex;
 	private boolean hasChanged;
-	private String endTime;
+	private String prevEndTime;
 	private String timeTaken;
 	Calendar cal;
 
@@ -40,7 +41,8 @@ public class ExamView extends Observable {
 		try {
 			initialize(frame);
 			cal = Calendar.getInstance();
-			endTime = cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
+			prevEndTime = cal.get(Calendar.MINUTE) + ":"
+					+ cal.get(Calendar.SECOND);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -55,12 +57,20 @@ public class ExamView extends Observable {
 		frame.add(getViewPanel());
 	}
 
-	private void addQuestionsToPanel(ArrayList<Questions> listOfQuestions) {
+	private void addQuestionsToPanel(ArrayList<Question> listOfQuestions) {
 		bGroupList = new ArrayList<ButtonGroup>(listOfQuestions.size());
 		int index = 0;
-		for (Questions que : listOfQuestions) {
+		for (Question que : listOfQuestions) {
 			JPanel panel = new JPanel();
 			panel.add(new JLabel("Question: " + que.getQuestion()));
+			if (que.hasImage()) {
+				panel.add(new JLabel(new ImageIcon(new ImageIcon(que
+						.getImagePath()).getImage().getScaledInstance(300, 100,
+						0))));/*
+							 * GridLayout layout = new GridLayout(6, 1, 0, 0);
+							 * panel.setLayout(layout);
+							 */
+			}
 			ButtonGroup bGroup = new ButtonGroup();
 			ArrayList<JRadioButton> buttonList = new ArrayList<JRadioButton>();
 			for (Answers ans : que.getAnswers()) {
@@ -85,12 +95,20 @@ public class ExamView extends Observable {
 
 	protected void setTimeTaken() {
 		cal = Calendar.getInstance();
-		String str[] = endTime.split(":");
 		int min = cal.get(Calendar.MINUTE);
 		int sec = cal.get(Calendar.SECOND);
-		timeTaken = (min - Integer.parseInt(str[0])) + ":"
-				+ (sec - Integer.parseInt(str[1]));
-		endTime = min + ":" + sec;
+		timeTaken = calculateTimeDiff(prevEndTime, min + ":" + sec);
+		prevEndTime = min + ":" + sec;
+	}
+
+	private String calculateTimeDiff(String endTime, String currentTime) {
+		String str1[] = endTime.split(":");
+		String str2[] = currentTime.split(":");
+		int diff = (Integer.parseInt(str2[0]) * 60 + Integer.parseInt(str2[1]))
+				- (Integer.parseInt(str1[0]) * 60 + Integer.parseInt(str1[1]));
+		int min = diff / 60;
+		int sec = diff % 60;
+		return min + ":" + sec;
 	}
 
 	public String getTimeTaken() {

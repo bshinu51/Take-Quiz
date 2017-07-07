@@ -2,13 +2,13 @@ package com.cse360.quiz.model.inputdata;
 
 import java.util.ArrayList;
 
-public class Questions {
+public class Question {
 	private String question;
 	private ArrayList<Answers> answers;
 	private String currectAnswer;
 	private String imagePath;
 
-	public Questions(String[] str) {
+	public Question(String[] str) {
 		question = str[0];
 		answers = new ArrayList<Answers>();
 		boolean isCurrect = false;
@@ -19,7 +19,7 @@ public class Questions {
 				isCurrect = true;
 			answers.add(new Answers(str[i + 1], isCurrect));
 		}
-		if (str.length > 6)
+		if (str.length > 6 && !str[6].equals("null"))
 			imagePath = str[6];
 	}
 
@@ -37,5 +37,9 @@ public class Questions {
 
 	public String getImagePath() {
 		return imagePath;
+	}
+
+	public boolean hasImage() {
+		return imagePath != null ? true : false;
 	}
 }
