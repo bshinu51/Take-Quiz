@@ -1,4 +1,4 @@
-package com.cse360.quiz;
+package com.cse360.quiz.view;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Observable;
+
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
@@ -15,9 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import com.cse360.quiz.inputdata.Answers;
-import com.cse360.quiz.inputdata.Exam;
-import com.cse360.quiz.inputdata.Questions;
+import com.cse360.quiz.model.inputdata.Answers;
+import com.cse360.quiz.model.inputdata.Exam;
+import com.cse360.quiz.model.inputdata.Questions;
 
 public class ExamView extends Observable {
 	private JPanel viewPanel = new JPanel();

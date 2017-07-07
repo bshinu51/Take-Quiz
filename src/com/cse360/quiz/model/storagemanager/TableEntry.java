@@ -1,4 +1,4 @@
-package com.cse360.quiz.storagemanager;
+package com.cse360.quiz.model.storagemanager;
 
 public class TableEntry {
 

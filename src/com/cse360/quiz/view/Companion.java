@@ -1,18 +1,19 @@
-package com.cse360.quiz.intelligence;
+package com.cse360.quiz.view;
 
-import javax.swing.GroupLayout;
+import java.awt.GridLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.cse360.quiz.ExamController;
+import com.cse360.quiz.control.intelligence.GhostBrain;
 
 public class Companion extends JPanel implements Runnable {
 	JLabel weatherInfo;
 	JLabel ghostImage;
 	JLabel companionMessage;
 	JLabel clock;
-	GroupLayout layout;
+	GridLayout layout;
 	int startTimeMin = 10;
 	int startTimeSec = 0;
 	private GhostBrain ghostBrain;
@@ -28,38 +29,18 @@ public class Companion extends JPanel implements Runnable {
 		weatherInfo.setText(ghostBrain.getTemperatureMsg());
 		ghostImage = new JLabel(new ImageIcon(new ImageIcon(fileName)
 				.getImage().getScaledInstance(70, 70, 0)));
+		ghostImage.setBounds(0, 0, 70, 70);
 		companionMessage = new JLabel();
 		clock = new JLabel();
-		layout = new GroupLayout(this);
-		setPanelLayout();
+		layout = new GridLayout(2, 2);
+		// setPanelLayout();
+		setLayout(layout);
 		add(ghostImage);
 		add(companionMessage);
 		add(weatherInfo);
 		add(clock);
 		this.revalidate();
 		this.repaint();
-	}
-
-	public void setPanelLayout() {
-		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup().addComponent(ghostImage)
-								.addComponent(clock))
-				.addGroup(
-						layout.createParallelGroup()
-								.addComponent(companionMessage)
-								.addComponent(weatherInfo)));
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup().addComponent(ghostImage)
-								.addComponent(companionMessage))
-				.addGroup(
-						layout.createParallelGroup().addComponent(clock)
-								.addComponent(weatherInfo)));
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.cse360.quiz.inputdata;
+package com.cse360.quiz.model.inputdata;
 
 public class Answers {
 	public String answerText;

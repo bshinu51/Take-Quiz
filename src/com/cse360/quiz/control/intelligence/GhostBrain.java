@@ -1,4 +1,4 @@
-package com.cse360.quiz.intelligence;
+package com.cse360.quiz.control.intelligence;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -8,9 +8,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
-import com.cse360.quiz.ExamController;
-import com.cse360.quiz.storagemanager.BlackBoard;
-import com.cse360.quiz.storagemanager.TableEntry;
+import com.cse360.quiz.model.storagemanager.BlackBoard;
+import com.cse360.quiz.model.storagemanager.TableEntry;
+import com.cse360.quiz.view.ExamController;
 
 public class GhostBrain implements Observer {
 	BlackBoard blackBoard = BlackBoard.getInstance();
@@ -80,7 +80,7 @@ public class GhostBrain implements Observer {
 
 	public String getCompanionMessage() {
 		return this.companionMessage + " And you took " + timeTaken
-				+ " minutes";
+				+ " minutes to answer this question";
 	}
 
 	private String getGreetingMessage() {
