@@ -1,0 +1,10 @@
+Please choose the correct answer based on the below diagram (Diagram 1). ,The relation between Transaction and Withdraw is incorrect.,The relation between Transaction and Customer Authentication is incorrect.,The relation between Customer and Transaction is incorrect. ,The relation between Bank and Transaction is incorrect.,The relation between Transaction and Customer Authentication is incorrect.,resources/Diagram1.png
+The following requirement is functional or non-functional "The system shall allow a user to interface with it through mouse events on buttons and drop down boxes and keyboard events on text fields. The amount of user keyboard input shall be minimized",non-functional requirement.,functional requirement.,none of these.,both.,non-functional requirement.
+In this model- a phase has to be complete before moving onto the next phase.,Waterfall,Spiral,V-Model,Incremental,Waterfall
+Which process model would you recommend for the creation of pac-man video game for iPhone?,Spiral,Prototype,Incremental,Waterfall,Waterfall
+A structured set of activities required to develop a software system is __,Process Model,Process,Tool,Method,Process
+Which process model would you recommend for the software embedded in a new medical device?,Prototype,Waterfall,V-model,Incremental,V-model
+Agile is useful for,small or medium-sized products,all software products except medical applications,virtually all software products,large products,small or medium-sized products
+Choose the correct definition for ACTOR.,An ACTOR represents roles humans take when interacting with the system,An ACTOR represents a machine or an external entity interacting with the system,An ACTOR represents a particular human who interact with the system,All the listed options are correct,All the listed options are correct	
+What is Software Architecture,Its detail implementation of code,it's high level abstract view,both,none of the above,it's high level abstract view
+Interface complexity is: ,number of returns,number of parameters,both,none of the above,both
