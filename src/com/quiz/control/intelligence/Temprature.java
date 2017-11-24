@@ -1,4 +1,4 @@
-package com.cse360.quiz.control.intelligence;
+package com.quiz.control.intelligence;
 
 import java.io.BufferedReader;
 import java.io.IOException;

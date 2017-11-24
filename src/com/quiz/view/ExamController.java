@@ -1,4 +1,4 @@
-package com.cse360.quiz.view;
+package com.quiz.view;
 
 import java.awt.GridLayout;
 
@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
-import com.cse360.quiz.control.intelligence.GhostBrain;
-import com.cse360.quiz.model.storagemanager.BlackBoard;
+import com.quiz.control.intelligence.GhostBrain;
+import com.quiz.model.storagemanager.BlackBoard;
 
 public class ExamController extends JFrame {
 	static ExamView examPanel;

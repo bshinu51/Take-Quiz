@@ -1,4 +1,4 @@
-package com.cse360.quiz.view;
+package com.quiz.view;
 
 import java.awt.GridLayout;
 
@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.cse360.quiz.control.intelligence.GhostBrain;
+import com.quiz.control.intelligence.GhostBrain;
 
 public class Companion extends JPanel implements Runnable {
 	JLabel weatherInfo;

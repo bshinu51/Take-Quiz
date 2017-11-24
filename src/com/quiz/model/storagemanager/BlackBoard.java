@@ -1,10 +1,10 @@
-package com.cse360.quiz.model.storagemanager;
+package com.quiz.model.storagemanager;
 
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.cse360.quiz.view.ExamView;
+import com.quiz.view.ExamView;
 
 public class BlackBoard extends Observable implements Observer {
 	private static BlackBoard sInstance = null;

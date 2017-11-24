@@ -1,4 +1,4 @@
-package com.cse360.quiz.control.intelligence;
+package com.quiz.control.intelligence;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -8,9 +8,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
-import com.cse360.quiz.model.storagemanager.BlackBoard;
-import com.cse360.quiz.model.storagemanager.TableEntry;
-import com.cse360.quiz.view.ExamController;
+import com.quiz.model.storagemanager.BlackBoard;
+import com.quiz.model.storagemanager.TableEntry;
+import com.quiz.view.ExamController;
 
 public class GhostBrain implements Observer {
 	BlackBoard blackBoard = BlackBoard.getInstance();
